@@ -28,7 +28,7 @@ namespace {
 
 namespace moving_averages {
 
-    template<typename T>
+    template<typename T = double>
     std::vector<T> CalculateSimpleMovingAverage(const std::vector<T> &function, const int moving_window_size) {
         ValidateParams(function, moving_window_size);
 
