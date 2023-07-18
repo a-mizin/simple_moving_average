@@ -5,18 +5,18 @@
 
 namespace {
     template<typename T>
-    void ValidateParams(const std::vector<T> &function, int moving_window_size) {
+    void ValidateParams(const std::vector<T> &function, const int moving_window_size) {
         if (moving_window_size <= 1) {
-            throw std::logic_error("error");
+            throw std::logic_error("error: incorrect moving window size");
         }
 
         if (moving_window_size >= function.size()) {
-            throw std::logic_error("error");
+            throw std::logic_error("error: moving window size is larger than the function size");
         }
     }
 
     template<typename T>
-    T GetFirstAverage(const std::vector<T> &function, int moving_window_size) {
+    T GetFirstAverage(const std::vector<T> &function, const int moving_window_size) {
         T window_sum = 0.0;
         for (size_t i = 0; i <= moving_window_size - 1; ++i) {
             window_sum += function[i];
@@ -29,7 +29,7 @@ namespace {
 namespace moving_averages {
 
     template<typename T>
-    std::vector<T> CalculateSimpleMovingAverage(const std::vector<T> &function, int moving_window_size) {
+    std::vector<T> CalculateSimpleMovingAverage(const std::vector<T> &function, const int moving_window_size) {
         ValidateParams(function, moving_window_size);
 
         std::vector<T> simple_moving_average;
@@ -39,7 +39,7 @@ namespace moving_averages {
         simple_moving_average.push_back(current_average);
 
         for (size_t i = moving_window_size; i < function.size(); ++i) {
-            current_average += -function[i - moving_window_size] + function[i];
+            current_average += (-function[i - moving_window_size] + function[i]) / moving_window_size;
             simple_moving_average.push_back(current_average);
         }
 
